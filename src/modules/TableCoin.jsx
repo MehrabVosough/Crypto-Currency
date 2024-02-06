@@ -1,25 +1,33 @@
+import { ThreeCircles } from "react-loader-spinner";
+
 import chartUp from "../assets/chart-up.svg";
 import chartDown from "../assets/chart-down.svg";
 
-function TableCoin({ coin }) {
+function TableCoin({ coin, isLoading }) {
 	return (
-		<table>
-			<thead>
-				<tr>
-					<th>Coin</th>
-					<th>Name</th>
-					<th>Price</th>
-					<th>24h</th>
-					<th>Total valume</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-				{coin.map((coin) => (
-					<TableRow coin={coin} key={coin.id} />
-				))}
-			</tbody>
-		</table>
+		<div>
+			{isLoading ? (
+				<ThreeCircles color="#3874ff" width="150" height="150" />
+			) : (
+				<table>
+					<thead>
+						<tr>
+							<th>Coin</th>
+							<th>Name</th>
+							<th>Price</th>
+							<th>24h</th>
+							<th>Total valume</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{coin.map((coin) => (
+							<TableRow coin={coin} key={coin.id} />
+						))}
+					</tbody>
+				</table>
+			)}
+		</div>
 	);
 }
 export default TableCoin;
@@ -29,7 +37,7 @@ const TableRow = ({
 		image,
 		name,
 		current_price,
-        symbol,
+		symbol,
 		total_volume,
 		price_change_percentage_24h: price_change,
 	},
