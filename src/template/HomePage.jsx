@@ -4,14 +4,14 @@ import { GetCoinList } from "../services/GetCoinList";
 
 function HomePage() {
 	const [coin, setCoine] = useState([]);
-    const [isLoading,setIsLoading] = useState(true)
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		const getData = async () => {
 			const res = await fetch(GetCoinList());
 			const json = await res.json();
 			setCoine(json);
-            setIsLoading(false)
+			setIsLoading(false);
 		};
 		getData();
 	}, []);
