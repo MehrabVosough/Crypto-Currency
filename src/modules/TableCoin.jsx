@@ -4,8 +4,9 @@ import chartUp from "../assets/chart-up.svg";
 import chartDown from "../assets/chart-down.svg";
 
 import styles from "./TableCoin.module.css";
+import { marketChart } from "../services/GetCoinList";
 
-function TableCoin({ coin, isLoading, currency }) {
+function TableCoin({ coin, isLoading, currency, setChart }) {
 	return (
 		<div className={styles.container}>
 			{isLoading ? (
@@ -24,7 +25,12 @@ function TableCoin({ coin, isLoading, currency }) {
 					</thead>
 					<tbody>
 						{coin.map((coin) => (
-							<TableRow coin={coin} key={coin.id} currency={currency} />
+							<TableRow
+								coin={coin}
+								key={coin.id}
+								currency={currency}
+								setChart={setChart}
+							/>
 						))}
 					</tbody>
 				</table>
@@ -36,6 +42,7 @@ export default TableCoin;
 
 const TableRow = ({
 	coin: {
+		id,
 		image,
 		name,
 		current_price,
@@ -44,11 +51,22 @@ const TableRow = ({
 		price_change_percentage_24h: price_change,
 	},
 	currency,
+	setChart,
 }) => {
+	const chartHandler = async () => {
+		try {
+			const res = await fetch(marketChart(id));
+			const json = await res.json();
+			setChart(json);
+		} catch (error) {
+			setChart(null);
+		}
+	};
+
 	return (
 		<tr>
 			<td>
-				<div className={styles.symbol}>
+				<div className={styles.symbol} onClick={chartHandler}>
 					<img src={image} alt={name} />
 					<span>{symbol.toUpperCase()}</span>
 				</div>
